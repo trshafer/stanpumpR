@@ -1,42 +1,9 @@
 # Load Libraries
-library(shiny)
-library(shinyjs)
-library(shinydashboard)
-library(shinyBS)
-library(httr)
-library(ggpubr)
-library(mailR)
-library(ggplot2)
-library(grid)
-library(RColorBrewer)
-library(openxlsx)
-library(dplyr)
-library(officer)
-library(rvg)
-library(R.utils)
-library(jpeg)
-library(egg)
-library(ggpubr)
-library(splines)
-library(randomcoloR)
-library(rhandsontable)
-library(DT)
-library(config)
-library(purrr)
-library(data.table)
-library(stringi)
-library(png)
-library(jsonlite)
-# library(ggplotify)
-#library(facetscales)
-library(tidyr)
-library(dqshiny)
-library(shinyWidgets)
+source(file.path("globalPackages.R"), local = TRUE)
 
-
-# tell shiny to log all reactivity
-library(reactlog)
 options(warn = 2)
+
+source(file.path("globalVariables.R"), local = TRUE)
 isShinyLocal <- Sys.getenv('SHINY_PORT') == ""
 # cat("isShinyLocal",isShinyLocal,"\n")
 
@@ -63,6 +30,9 @@ config <- config::get()
 for (file in list.files("helpers", pattern = "\\.R$")) {
   source(file.path("helpers", file), local = TRUE)
 }
+# for (file in list.files("R", pattern = "\\.R$")) {
+#   source(file.path("R", file), local = TRUE)
+# }
 
 # Load other files
 #CANCEL <- readPNG("www/cancel.png", native=TRUE)
@@ -79,51 +49,6 @@ for (drug in drugDefaults_global$Drug)
   source(file.path("data", "drugs", paste0(drug, ".R")))
 }
 
-facetFont <-      c(  20,   18,   18,   16,   14,   14,   14,   13,   13,   12,   11,   10,    9,    9,   8,  8)
-labelFont <-      c(  16,   15,   14,   13,   12,   11,   9,    8,    8,    7,    6,    6,    5,    5,   5,  5)
-facetSeperator <- c( " ",  "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n", "\n")
-facetAngle <-     c( 270,  270,  180,  180,  180,  180,  180,  180,  180,  180,  180,  180,  180,  180,  180, 180)
-facetSpacing <-   c(2.25,    2,  1.75,  1.5,    1,    1,  0.8,  0.7,  0.6,  0.6,  0.5,  0.5,  0.4,  0.3,  0.3, 0.2)
-
-
-#default variables
-defaultAge <- 50      # Years
-defaultAgeUnit <- 1   # Year
-defaultWeight <- 60   # Kg
-defaultWeightUnit <- 1  # Kg
-defaultHeight <- 66    # Centimeters
-defaultHeightUnit <- 2.56  # Inches
-defaultSex <- "female"
-
-# defaultAge <- NULL
-# defaultAgeUnit <- character(0)
-# defaultWeight <- NULL
-# defaultWeightUnit <- character(0)
-# defaultHeight <- NULL
-# defaultHeightUnit <- character(0)
-# defaultSex <- character(0)
-
-# Default aspect ratio
-aspect <- 0.6
-
-# Resolution for linear interpolation
-resolution <- 100
-
-# Be sure there are more items below then potential facets on the simulation plot
-#                     1     2     3     4     5     6     7     8     9    10    11    12    13    14   15
-bolusUnits <- c("g","mg","mcg", "ng","g/kg","mg/kg","mcg/kg","ng/kg")
-infusionUnits <- c("mg/min","mg/hr","mg/kg/min","mg/kg/hr","mcg/min","mcg/hr","mcg/kg/min","mcg/kg/hr")
-poUnits <- c("g PO", "g/kg PO", "mg PO", "mg/kg PO", "mcg PO", "mcg/kg PO")
-inUnits <- c("g IN", "g/kg IN", "mg IN", "mg/kg IN", "mcg IN", "mcg/kg IN")
-imUnits <- c("g IM", "g/kg IM", "mg IM", "mg/kg IM", "mcg IM", "mcg/kg IM")
-
-allUnits <- c(bolusUnits, infusionUnits, poUnits, inUnits, imUnits)
-
-
-maxtimes <- data.frame(
-  times = c(10, 30, 60, 90, 120, 180, 240, 300, 360, 480, 600, 720, 1440, 1680, 1920, 2880, 4320, 5760,7200, 1000000 ),
-  steps = c( 1,  5, 10, 15,  15,  30,  30,  60,  60,  60, 120, 120, 240,  240, 240,  480,   480,  720, 720, 1440)
-)
 
 
 x <- system.time({

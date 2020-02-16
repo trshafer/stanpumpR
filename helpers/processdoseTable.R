@@ -22,13 +22,14 @@ processdoseTable <- function (DT, ET, drugs, plotMaximum, prior, plotRecovery)
     # cat("Structure of tempET\n")
     # print(str(tempET))
 
-    if (!isTRUE(all_equal(tempDT, drugs[[drug]]$DT)) |
+    shouldSetDrugsValues <- (!isTRUE(all_equal(tempDT, drugs[[drug]]$DT)) |
         plotMaximum != prior$plotMaximum
         | (length(drugs[[drug]]$pkEvents) > 1 &
            !isTRUE(all_equal(drugs[[drug]]$ET, tempET)) |
         (plotRecovery & !prior$plotRecovery)
-        )
-      )
+        ))
+
+    if (shouldSetDrugsValues)
     {
       # cat("Seems not\n")
       if (nrow(tempDT) == 0 ) # Delete anything that should be deleted

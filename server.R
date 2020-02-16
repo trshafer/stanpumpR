@@ -643,6 +643,7 @@ function(input, output, session)
       replotFlag <- TRUE
     } else {
       outputComments("doseTable remains unchanged in main observe()", echo = DEBUG)
+      replotFlag <- TRUE
     }
     if (!isTRUE(all_equal(ET, prior$ET))) {
       outputComments("Plotting because eventTable changed.", echo = DEBUG)
